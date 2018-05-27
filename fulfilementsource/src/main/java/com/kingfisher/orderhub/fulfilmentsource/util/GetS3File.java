@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Base64;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +16,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.util.Base64;
 import com.kingfisher.orderhub.fulfilmentsource.exception.CustomExceptionHandler;
 import com.kingfisher.orderhub.fulfilmentsource.exception.S3ServiceIOException;
 
@@ -30,9 +30,10 @@ public class GetS3File {
 		String data = null;
 		S3Object fullObject = null, objectPortion = null, headerOverrideObject = null;
 		try {
-			BasicAWSCredentials awsCreds = new BasicAWSCredentials(Base64
-					.getDecoder().decode(accessKey).toString(), Base64
-					.getDecoder().decode(secret).toString());
+			accessKey = new String(Base64.decode(accessKey));
+			secret = new String(Base64.decode(secret));
+			BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey,
+					secret);
 			AmazonS3 s3Client = AmazonS3ClientBuilder
 					.standard()
 					.withRegion(clientRegion)
