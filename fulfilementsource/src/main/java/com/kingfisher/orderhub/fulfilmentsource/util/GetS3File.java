@@ -28,7 +28,7 @@ public class GetS3File {
 			String fileName, String accessKey, String secret)
 			throws S3ServiceIOException {
 		String data = null;
-		S3Object fullObject = null, objectPortion = null, headerOverrideObject = null;
+		S3Object fullObject = null;
 		try {
 			accessKey = new String(Base64.decode(accessKey));
 			secret = new String(Base64.decode(secret));
@@ -61,24 +61,6 @@ public class GetS3File {
 			if (fullObject != null) {
 				try {
 					fullObject.close();
-				} catch (IOException e) {
-					LOGGER.error(e.getLocalizedMessage());
-					e.printStackTrace();
-					throw new S3ServiceIOException(e.getLocalizedMessage());
-				}
-			}
-			if (objectPortion != null) {
-				try {
-					objectPortion.close();
-				} catch (IOException e) {
-					LOGGER.error(e.getLocalizedMessage());
-					e.printStackTrace();
-					throw new S3ServiceIOException(e.getLocalizedMessage());
-				}
-			}
-			if (headerOverrideObject != null) {
-				try {
-					headerOverrideObject.close();
 				} catch (IOException e) {
 					LOGGER.error(e.getLocalizedMessage());
 					e.printStackTrace();
